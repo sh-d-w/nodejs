@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+body {font-family: "Times New Roman", Times, serif;}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+</style>
+</head>
+<body>
+
+<center>
+<h2>Hyperion Mediclinic</h2>
+<center>
+<div class="tab">
+  <button class="tablinks" onclick="Tabs(event, 'Home')">Home</button>
+  <button class="tablinks" onclick="Tabs(event, 'Ny')">Join us today</button>
+  <button class="tablinks" onclick="Tabs(event, 'Paris')">How we work</button>
+  <button class="tablinks" onclick="Tabs(event, 'Covid')">COVID-19</button>
+  <button class="tablinks" onclick="Tabs(event, 'Tokyo')">Contact us</button>
+</div>
+
+<div id="Home" class="tabcontent">
+  <h3>At Hyperion Mediclinic we...</h3>
+  <p>Push the bounderies of what doctors can do.</p>
+  <p>When you look to us, you're not just looking to anyone.</p>
+	<br>
+	<h2>We Care!!</h2>
+</div>
+
+<div id="Paris" class="tabcontent">
+  <h3>Simply...</h3>
+  <p>Create an account,<br> select a slot and pay for your appointment;<br> Show up to our clinic on the day.</p>
+	<br>
+	<h3>Alternatively:</h3>
+	<p>Join as a family/group,<br> make group payments,<br> once paid off,<br> book a slot at the clinic as a group</p>
+</div>
+
+<div id="Ny" class="tabcontent">
+	<h3 onclick="login()">Login</h3>
+	<h3 onclick="adminLogin()">Login as doctor</h3>
+	<h3 onclick="signUp()">Sign up</h3>
+</div>
+
+<div id="Covid" class="tabcontent">
+	<p></p>
+	<br>
+	<p>We encourage gaming to teach you about geometry when it comes to social distancing.<	/p>
+  <p>"Heroes of the storm" is the game of choice by our doctors.</p>
+	<br>
+	<p>Google "Kael'thas abilities" for more details </p>
+</div>
+
+<div id="Tokyo" class="tabcontent">
+  <p>Email us at: admin@HyperionMediclinic.com </p>
+  <p>Contact us at: 066 111 2200 </p>
+</div>
+
+
+
+<div id="userLogin" class="tabcontent">
+	<center><p id="loginMessage"></p></center>
+<form class="form"  action="/login" method="post" name="regForm">
+	<h3>Login</h3>         
+    <div class="form-group">
+        <input type="text" name="email" class="form-control" id="username" placeholder="Email">
+        <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+    </div>
+	<button type="submit">Submit</button>
+	<!-- <button onclick="document.getElementById('anything').value = 'two'" type="submit" >two</button> -->
+	<!-- <br> -->
+	<!-- <input type="text" style='opacity: 0;' name="anything" class="form-control" id="anything" placeholder="everything" value='valuable'> -->
+</form>
+</div>
+
+<div id="adminLogin" class="tabcontent">
+	<center><p id="adminLoginMessage"></p></center>
+<form class="form"  action="/adminLogin" method="post" name="regForm">              
+    <h3>Admin login</h3>
+    <div class="form-group">
+        <input type="text" name="email" class="form-control" id="email" placeholder="Email">
+        <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+    </div>
+    <button type="submit" >Submit</button>
+</form>
+</div>
+
+<div id="userSignUp" class="tabcontent">
+<form class="form"  action="/signup" method="post" name="regForm">
+	<div>
+    <h3>Sign up</h3>
+    <div class="form-group">
+        <input type="text" name="email" class="form-control" id="email" placeholder="Email">
+        <input type="text" name="username" class="form-control" id="username" placeholder="Username">
+        <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+    </div>
+<div>
+	<label>Are you a Hyperion doctor?</label> 
+	<input type="checkbox" id="myCheck" onclick="checkBox()">
+	<select name="fields" id="fields" style="display:none" value=''>
+		<option value='Chiropractor'>Chiropractor</option>
+		<option value='Dermatologist'>Dermatologist</option>
+		<option value='Orthodontist'>Orthodontist</option>
+		<option value='Cardiologist'>Cardiologist</option>
+	</select>
+</div>
+</br>
+    <button type="submit" >Submit</button>
+	</div>
+</form>
+</div>
+
+<script>
+
+function	login() {
+	Tabs(event, 'userLogin')
+
+//	document.getElementById("login").innerHTML = "";
+}
+
+function	adminLogin() {
+	Tabs(event, 'adminLogin')
+}
+
+function	signUp() {
+	Tabs(event, 'userSignUp')
+}
+
+function Tabs(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+function checkBox() {
+	var checkBox = document.getElementById("myCheck");
+	//var text = document.getElementById("text");
+	var l_fields = document.getElementById("fields");
+
+	if (checkBox.checked == true){
+    	//text.style.display = "block";
+    	fields.style.display = "block";
+  	} else {
+    	 //text.style.display = "none";
+    	 fields.style.display = "none";
+         fields.value=''
+	}
+}
+
+const queryString = window.location.search;
+console.log(queryString);
+// ?product=shirt&color=blue&newuser&size=m
+
+const urlParams = new URLSearchParams(queryString);
+
+let l_tab = urlParams.get('tab')
+if (l_tab == 'login') {
+	let l_message = urlParams.get('message')
+
+	document.getElementById('loginMessage').innerHTML = l_message
+	login()
+}
+if (l_tab == 'adminLogin') {
+	let l_message = urlParams.get('message')
+
+	document.getElementById('adminLoginMessage').innerHTML = l_message
+	adminLogin()
+}
+
+document.getElementById("fields").value=''	// no doctor fields selected initially
+
+//document.getElementById("Home").click();
+Tabs(event, 'Home')
+
+//console.log(product);
+// shirt
+
+//const color = urlParams.get('color')
+//console.log(color);
+// blue
+
+//const newUser = urlParams.get('newuser')
+//console.log(newUser);
+// empty string
+</script>
+   
+</body>
+</html> 

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+* {box-sizing: border-box;}
+ul {list-style-type: none;}
+body {font-family: Verdana, sans-serif;}
+
+.month {
+  padding: 70px 25px;
+  width: 100%;
+  background: #1abc9c;
+  text-align: center;
+}
+
+.month ul {
+  margin: 0;
+  padding: 0;
+}
+
+.month ul li {
+  color: white;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.month .prev {
+  float: left;
+  padding-top: 10px;
+}
+
+.month .next {
+  float: right;
+  padding-top: 10px;
+}
+
+.weekdays {
+  margin: 0;
+  padding: 10px 0;
+  background-color: #ddd;
+}
+
+.weekdays li {
+  display: inline-block;
+  width: 13.6%;
+  color: #666;
+  text-align: center;
+}
+
+.days {
+  padding: 10px 0;
+  background: #eee;
+  margin: 0;
+}
+
+.days li {
+  list-style-type: none;
+  display: inline-block;
+  width: 13.6%;
+  text-align: center;
+  margin-bottom: 5px;
+  font-size:12px;
+  color: #777;
+}
+
+.days li .active {
+  padding: 5px;
+  background: #1abc9c;
+  color: white !important
+}
+
+.hours {
+  padding: 10px 0;
+  background: #eee;
+  margin: 0;
+}
+
+.hours li {
+  list-style-type: none;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 5px;
+  font-size:12px;
+  color: #777;
+}
+
+.hours li .active {
+  padding: 5px;
+  background: #1abc9c;
+  color: white !important
+}
+
+
+/* Add media queries for smaller screens */
+@media screen and (max-width:720px) {
+  .weekdays li, .days li {width: 13.1%;}
+  .hours li {width: 100%;}
+
+}
+
+@media screen and (max-width: 420px) {
+  .weekdays li, .days li {width: 12.5%;}
+  .days li .active {padding: 2px;}
+	.hours li {width: 100%;}
+}
+
+@media screen and (max-width: 290px) {
+  .weekdays li, .days li {width: 12.2%;}
+	.hours li {width: 100%;}
+}
+
+.appointment {
+  border: none;
+  width: 100%;
+}
+
+.grey {
+  background-color: #bbb;
+}
+.green {
+  background-color: #bfb;
+}
+.blue {
+  background-color: #bbf;
+}
+.red {
+  background-color: #fbb;
+}
+.yellow {
+  background-color: #ffb;
+}
+
+</style>
+</head>
+<body>
+
+<center>
+<h2>Hyperion Mediclinic</h2>
+</center>
+
+<div class="tab">
+  <button id="appointments" class="tablinks" onclick="appointmentState()">Edit appointments</button>
+  <button class="tablinks" onclick="Tabs(event, 'Paris')">How it works</button>
+  <button class="tablinks" onclick="Tabs(event, 'Tokyo')">Contact us</button>
+  <button class="tablinks" onclick="Tabs(event, 'logout')">Logout</button>
+</div>
+
+<div id="Paris" class="tabcontent">
+  <h3>Simply...</h3>
+  <p>Create an account,<br> select a slot and pay for your appointment;<br> Show up to our clinic on the day.</p>
+
+</div>
+
+<div id='selectPractitioner' class='tabcontent'>
+	<form class="form"  action="/selectPractitioner" method="post" name="regForm">
+	<select name="fields" id="fields" onchange=' this.form.submit()' value=''>
+    	<option value=''>unavailable</option>
+  	</select>
+  
+	<select name="practitioners" id="practitioners">
+    	<option value=''>unavailable</option>
+	</select>
+ 	 <button id="demo"  type="submit" onclick="dropdownlist_data()">check schedule</button>
+  	</form>
+</div>
+
+<div id='day' class='tabcontent'>
+
+<div class="month">      
+  <ul>
+    <li class="prev">&#10094;</li>
+    <li class="next">&#10095;</li>
+    <li>
+      <p id="day_of_month">31</p><br>
+      <p id="month_of_year">August</p><br>
+      <span style="font-size:18px">2021</span>
+    </li>
+  </ul>
+</div>
+
+<ul class="weekdays">
+  <li id="day_of_week">Monday</li>
+</ul>
+
+<ul class="hours">  
+	<form id="appointment_submit" class="form"  action="/appointment" method="post" name="regForm">
+
+	</form>
+</ul>
+</div>
+
+<div id="Month" class="tabcontent">
+
+<div class="month">      
+  <ul>
+    <li class="prev">&#10094;</li>
+    <li class="next">&#10095;</li>
+    <li>
+      <p id="month_of_year_1">August</p><br>
+      <span style="font-size:18px">2021</span>
+    </li>
+  </ul>
+</div>
+
+<ul class="weekdays">
+  <li>Mo</li>
+  <li>Tu</li>
+  <li>We</li>
+  <li>Th</li>
+  <li>Fr</li>
+  <li>Sa</li>
+  <li>Su</li>
+</ul>
+
+<ul id="days" class="days">  
+<form id="days_submit" class="form"  action="/select_day" method="post" name="regForm">
+
+</form>
+  <!-- <li><span class="active">10</span></li> -->
+</ul>
+
+</div>
+
+
+<div id="Tokyo" class="tabcontent">
+  <p>Email us at: admin@HyperionMediclinic.com </p>
+  <p>Contact us at: 066 111 2200 </p>
+</div>
+
+<div id="userLogin" class="tabcontent">
+<form class="form"  action="/login" method="post" name="regForm">              
+    <div class="form-group">
+        <input type="text" name="username" class="form-control" id="username" placeholder="Username or email">
+        <input type="text" name="password" class="form-control" id="password" placeholder="Password">
+    </div>
+    <button type="submit" >Submit</button>
+</form>
+</div>
+
+<div id="adminLogin" class="tabcontent">
+<form class="form"  action="/adminLogin" method="post" name="regForm">              
+    <div class="form-group">
+        <input type="text" name="username" class="form-control" id="username" placeholder="Username or email">
+        <input type="text" name="password" class="form-control" id="password" placeholder="Password">
+    </div>
+    <button type="submit" >Submit</button>
+</form>
+</div>
+
+<div id="userSignUp" class="tabcontent">
+<form class="form"  action="/signup" method="post" name="regForm">
+	<div>
+    <div class="form-group">
+        <input type="text" name="email" class="form-control" id="email" placeholder="Email">
+        <input type="text" name="username" class="form-control" id="username" placeholder="Username">
+        <input type="text" name="password" class="form-control" id="password" placeholder="Password">
+    </div>
+
+    <button type="submit" >Submit</button>
+	</div>
+</form>
+</div>
+
+<div id="logout" class="tabcontent">
+<form class="form"  action="/logout" method="post" name="regForm">
+    <button type="submit" >Logout</button>
+</form>
+</div>
+
+<script>
+
+function Tabs(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+function	month(p_date) {    
+	// add days here:
+	let l_months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
+	let l_days = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
+
+	let d = new Date();//"03/25/2015"
+
+	if (p_date && p_date != '') {
+		d = new Date(parseInt(p_date))//"03/25/2015"
+		document.getElementById("month_of_year_1").innerHTML = l_months[d. getMonth()]
+	}
+//"month_of_year_1"
+
+	// today:
+	//first_day = new Date((d. getMonth() + 1) + "/" + d. getDate() + "/" + d. getFullYear())
+
+	// first day:
+	first_day = new Date((d. getMonth() + 1) + "/" + 1 + "/" + d. getFullYear())
+
+	//align days to days of week:
+	let l_tstr = ""
+	let i = first_day.getDay()
+	while (--i > 0) {
+		l_tstr += "<li></li>"
+	}
+
+	// all days of month:
+	let l_day = new Date((d. getMonth() + 1) + "/" + 1 + "/" + d. getFullYear())
+	i = 0
+	while (l_day.toString() != "Invalid Date") {
+		let l_datestr = ((d. getMonth() + 1).toString() + "/" + (++i).toString() + "/" + d. getFullYear().toString()).toString()
+		l_day = new Date(l_datestr)
+    	if (l_day.toString() != "Invalid Date") {
+			if (i < d.getDate())
+				l_tstr += "<li class='grey'>" + l_day. getDate() + "</li>"
+			else
+				l_tstr += "<li onclick='day_submit("+ l_day.valueOf() + ", " + l_day. getDate() +")' type='submit'>" + l_day. getDate() + "</li>"
+		}
+		
+	}
+	l_tstr += "<br><input type='text' style='opacity: 0;' name='datetime' class='form-control' id='datetime' placeholder='' value=''>"
+
+	document.getElementById("days_submit").innerHTML = l_tstr
+	//document.getElementById("days").innerHTML = ""
+
+	Tabs(event, 'Month')
+}
+
+function	day_submit(p_date, p_day) {
+	//gather data to send to server:
+	document.getElementById('datetime').value = p_date.toString() + ";" + p_day.toString()
+	//submit data to server:
+	document.getElementById("days_submit").submit()
+	//myForm.submit();
+	//Tabs(event, 'day')
+}
+
+function	appointment(p_period) {
+	// needs to add date 5/27/2021
+    // needs to add dr name 	to ping schedule database
+	document.getElementById('slot').value += ":" + p_period.toString()// date:hour
+}
+
+function	selectPractitioner(p_fields, p_practitioners) {
+	// will have to get options from server (when user logs in)
+	if (p_fields) {
+		let l_fields = p_fields.split(';')
+		let i = -1
+		let l_str = ''
+
+		while (++i < l_fields.length)
+			l_str += "<option value='" + l_fields[i] + "'>" + l_fields[i] + "</option>"
+		document.getElementById("fields").innerHTML = l_str //"<option value=''>Please select a catagory</option><option value='Chiropractor'>Chiropractor</option><option value='Dermatologist'>Dermatologist</option><option value='Orthodontist'>Orthodontist</option><option value='Cardiologist'>Cardiologist</option>"
+	}
+
+
+	// will have to get practitioners at runtime parsing it url params response
+	if (p_practitioners) {
+		let l_practitioners = p_practitioners.split(';')
+		let i = -1
+		let l_str = ''
+
+		while (++i < l_practitioners.length) {
+			let l_practitioners_id = l_practitioners[i].split(':')
+			l_str += "<option value='" + l_practitioners_id[0] + "'>" + l_practitioners_id[1] + "</option>"
+		}
+		document.getElementById("practitioners").innerHTML = l_str //"<option value=''>Please select a catagory</option><option value='Chiropractor'>Chiropractor</option><option value='Dermatologist'>Dermatologist</option><option value='Orthodontist'>Orthodontist</option><option value='Cardiologist'>Cardiologist</option>"
+		//document.getElementById("practitioners").innerHTML = "<option value='152'>Mohanlal</option><option value='17'>Mortala</option>"
+	}
+	else
+		document.getElementById("fields").value=''	// no doctor fields selected initially
+
+	Tabs(event, 'selectPractitioner')
+
+}
+
+function	day(p_slots, p_date) {
+	let l_tstr = ""
+	let i = -1
+	let l_period = []
+	let l_colors = ["red", "green", "yellow"]
+	let l_date = new Date(parseInt(p_date))
+	let l_months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
+	let l_days = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
+
+	document.getElementById("day_of_month").innerHTML = l_date.getDate()
+	document.getElementById("month_of_year").innerHTML = l_months[l_date. getMonth()]
+	document.getElementById("day_of_week").innerHTML = l_days[l_date.getDay()]
+
+	// initiate array to 0
+	for (i = 0; i < 24; i++)
+		l_period[i] = -2
+
+	//to set hour data here:	
+	if (p_slots && p_slots != '') {
+		let l_slots = p_slots.slice(0, -1).split(";")
+		
+		i = -1
+		while (++i < l_slots.length) {
+			let l_data = l_slots[i].split(":")
+			l_period[parseInt(l_data[0])] = parseInt(l_data[1])
+			// for each time period store at i
+		}
+	}
+	// all hours of day:
+	l_tstr = ""
+	i = -1
+	while (++i < 24) {
+		let l_color = ""
+		
+		if (l_period[i] != -2)
+		l_color = l_colors[l_period[i]]
+		l_tstr += "<button onclick='appointment(" + i + ")' type='submit' class='appointment " + l_color + "'>" + i + ":00</button>"
+	}
+	l_tstr += "<br><input type='text' style='opacity: 0;' name='slot' class='form-control' id='slot' placeholder='' value='" + p_date + "'>"
+
+	document.getElementById("appointment_submit").innerHTML = l_tstr
+
+	
+	Tabs(event, 'day')
+}
+
+function	appointmentState() {
+// to make decisions based off url data
+
+	const queryString = window.location.search;
+	//console.log(queryString);// ?product=shirt&color=blue&newuser&size=m
+	const urlParams = new URLSearchParams(queryString);
+
+	let l_select = urlParams.get('select')
+	let l_month = urlParams.get('month')
+	let l_day = urlParams.get('day')
+	let l_date = urlParams.get('date')
+
+	let l_fields = urlParams.get('fields')
+	let l_practitioners = urlParams.get('practitioners')
+	let l_slots = urlParams.get('slots')
+	if (l_month == 'true')
+		month(l_date)//load month
+	if (l_day == 'true')
+		day(l_slots, l_date)
+	if (l_select == 'true')
+		selectPractitioner(l_fields, l_practitioners)
+
+//	month()
+//	day()
+//	selectPractitioner()
+}
+
+document.getElementById("fields").value=''	// no doctor fields selected initially
+
+document.getElementById("appointments").click();
+//Tabs(event, 'day')
+//month()
+//Tabs(event, 'Tokyo')
+</script>
+
+
+</body>
+</html> 
