@@ -1,3 +1,13 @@
+# Download and install Xamp:
+https://www.apachefriends.org/download.html
+
+# Download and install npm:
+https://nodejs.org/en/download/
+
+
+
+# open the Xamp control panel and run the apache and MySQL servers
+
 # restore the node_modules:
 npm install
 
